@@ -1,0 +1,4 @@
+.idea
+PF-AFN_test/checkpoints
+vgg19-dcbb9e9d.pth
+PF-AFN_train

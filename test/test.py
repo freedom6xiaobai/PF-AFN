@@ -50,7 +50,7 @@ if __name__ == '__main__':
             clothes = data['clothes']
             ##edge is extracted from the clothes image with the built-in function in python
             edge = data['edge']
-            edge = torch.FloatTensor((edge.detach().numpy() > 0.5).astype(np.int))
+            edge = torch.FloatTensor((edge.detach().numpy() > 0.5).astype(np.int64))
             clothes = clothes * edge
 
             flow_out = warp_model(real_image.cuda(), clothes.cuda())
@@ -68,8 +68,6 @@ if __name__ == '__main__':
 
             path = 'results/' + opt.name
             os.makedirs(path, exist_ok=True)
-            sub_path = path + '/PFAFN'
-            os.makedirs(sub_path,exist_ok=True)
 
             if step % 1 == 0:
                 a = real_image.float().cuda()
@@ -79,7 +77,7 @@ if __name__ == '__main__':
                 cv_img=(combine.permute(1,2,0).detach().cpu().numpy()+1)/2
                 rgb=(cv_img*255).astype(np.uint8)
                 bgr=cv2.cvtColor(rgb,cv2.COLOR_RGB2BGR)
-                cv2.imwrite(sub_path+'/'+str(step)+'.jpg',bgr)
+                cv2.imwrite(path+'/'+str(step)+'.jpg',bgr)
 
             step += 1
             if epoch_iter >= dataset_size:
